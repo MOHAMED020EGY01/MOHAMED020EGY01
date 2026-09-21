@@ -150,7 +150,16 @@ A smart waste-sorting system combining computer vision and embedded hardware for
 
 <p align="center">
   <img src="https://github-readme-stats.vercel.app/api?username=MOHAMED020EGY01&show_icons=true&hide_border=true&theme=tokyonight&include_all_commits=true&count_private=true&rank_icon=github" height="180" />
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=MOHAMED020EGY01&layout=compact&hide_border=true&theme=tokyonight&langs_count=8" height="180" />
+</p>
+
+## 💻 Language Distribution
+
+<p align="center">
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=MOHAMED020EGY01&layout=donut&hide_border=true&theme=tokyonight&langs_count=10&size_weight=0.5&count_weight=0.5" height="300" />
+</p>
+
+<p align="center">
+  <sub>Percentages are calculated from the language breakdown of the repositories visible to GitHub's language analysis.</sub>
 </p>
 
 ---
