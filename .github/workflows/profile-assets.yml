@@ -489,7 +489,7 @@ jobs:
           <p align="center">
             <img src="./assets/footer.svg" width="100%" alt="Profile footer">
           </p>
-"""
+          """
 
               (ROOT / "README.md").write_text(
                   readme,
