@@ -385,38 +385,32 @@ jobs:
           def main():
               if WORK.exists():
                   shutil.rmtree(WORK)
-
-              if ASSETS.exists():
-                  ASSETS.mkdir(exist_ok=True)
-              else:
-                  ASSETS.mkdir()
-
+          
+              ASSETS.mkdir(exist_ok=True)
               WORK.mkdir()
-
+          
               repos = get_repositories()
               totals = {}
               scanned = []
-
+          
               for repo in repos:
                   if not clone_repo(repo):
                       continue
-
+          
                   scanned.append(repo)
                   counts = count_source(WORK / repo["name"])
-
+          
                   for language, lines in counts.items():
                       totals[language] = totals.get(language, 0) + lines
-
+          
               total_lines = sum(totals.values())
               contribution_count = contributions_last_year()
-
+          
               try:
-                  profile = api_json(
-                      f"https://api.github.com/users/{USER}"
-                  )
+                  profile = api_json(f"https://api.github.com/users/{USER}")
               except Exception:
                   profile = {"name": USER, "bio": ""}
-
+          
               make_header(
                   profile.get("name") or USER,
                   profile.get("bio") or "Software Developer",
@@ -424,83 +418,49 @@ jobs:
               )
               make_footer()
               make_language_chart(totals, len(scanned))
-
+          
               tech_table = language_table(totals)
-              projects = project_section(scanned)
-
-              readme = f"""# {html.escape(profile.get("name") or USER)}
+              private_status = (
+                  "Enabled — private repositories included"
+                  if TOKEN
+                  else "Disabled — add PROFILE_STATS_TOKEN to include private repositories"
+              )
           
-          <p align="center">
-            <img src="./assets/header.svg" width="100%" alt="Profile header">
-          </p>
-          
-          <p align="center">
-            <img src="./assets/github-contribution-grid-snake.svg" width="100%" alt="Contribution snake">
-          </p>
-          
-          ## About
-          
-          {html.escape(profile.get("bio") or "Software Developer building across web, mobile, AI and IoT.")}
-          
-          ---
-          
-          ## Profile Snapshot
+              stats_block = f"""<!-- PROFILE_STATS_START -->
+          ### Live Profile Stats
           
           | Metric | Value |
           |---|---:|
-          | Active owned repositories | {len(scanned)} |
+          | Active owned repositories scanned | {len(scanned)} |
+          | Private repository scan | {private_status} |
           | Contributions in the last year | {contribution_count} |
           | Source-code lines analyzed | {total_lines:,} |
           | Languages detected | {len(totals)} |
           
-          ---
-          
-          ## My Code Distribution
-          
           <p align="center">
-            <img src="./assets/language-distribution.svg" width="900" alt="Language distribution chart">
+            <img src="./assets/language-distribution.svg" width="900" alt="Actual source-code language distribution">
           </p>
           
           {tech_table}
+          <!-- PROFILE_STATS_END -->"""
           
-          ---
+              readme_path = ROOT / "README.md"
+              readme = readme_path.read_text(encoding="utf-8") if readme_path.exists() else ""
           
-          ## Recent Projects
+              start_marker = "<!-- PROFILE_STATS_START -->"
+              end_marker = "<!-- PROFILE_STATS_END -->"
           
-          {projects or "No projects available."}
+              if start_marker in readme and end_marker in readme:
+                  before = readme.split(start_marker, 1)[0]
+                  after = readme.split(end_marker, 1)[1]
+                  readme = before.rstrip() + "\n\n" + stats_block + after
+              else:
+                  readme = readme.rstrip() + "\n\n" + stats_block + "\n"
           
-          ---
+              readme_path.write_text(readme, encoding="utf-8")
           
-          ## Engineering Focus
-          
-          <p align="center">
-            <b>Full-Stack • Kotlin • AI • Computer Vision • IoT • 3D</b>
-          </p>
-          
-          ---
-          
-          ## GitHub
-          
-          <p align="center">
-            <a href="https://github.com/{USER}">github.com/{USER}</a>
-          </p>
-          
-          <p align="center">
-            <sub>This profile is regenerated automatically from GitHub data and source-code analysis.</sub>
-          </p>
-          
-          <p align="center">
-            <img src="./assets/footer.svg" width="100%" alt="Profile footer">
-          </p>
-          """
-
-              (ROOT / "README.md").write_text(
-                  readme,
-                  encoding="utf-8"
-              )
-
               shutil.rmtree(WORK, ignore_errors=True)
-
+          
           main()
           PY
 
