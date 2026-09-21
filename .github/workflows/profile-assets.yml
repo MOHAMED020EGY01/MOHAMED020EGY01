@@ -196,20 +196,21 @@ jobs:
                       pass
 
               try:
+                  url = f"https://github.com/users/{USER}/contributions"
                   req = urllib.request.Request(
-                      f"https://github.com/{USER}",
+                      url,
                       headers={"User-Agent": "Mozilla/5.0"}
                   )
                   page = urllib.request.urlopen(
                       req, timeout=60
                   ).read().decode("utf-8", "ignore")
 
-                  match = re.search(
-                      r"([0-9,]+)\s+contributions? in the last year",
+                  values = re.findall(
+                      r'aria-label="([0-9,]+) contributions? on ',
                       page
                   )
-                  if match:
-                      return match.group(1)
+                  if values:
+                      return f"{sum(int(value.replace(',', '')) for value in values):,}"
 
               except Exception:
                   pass
