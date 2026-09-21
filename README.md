@@ -158,8 +158,30 @@ A smart waste-sorting system combining computer vision and embedded hardware for
 
 | Metric | Value |
 |---|---:|
-| Status | Updating automatically... |
+| Active owned repositories scanned | 14 |
+| Private repository scan | Disabled — add PROFILE_STATS_TOKEN to include private repositories |
+| Contributions in the last year | See GitHub activity |
+| Source-code lines analyzed | 48,266 |
+| Languages detected | 15 |
 
+<p align="center">
+  <img src="./assets/language-distribution.svg" width="900" alt="Actual source-code language distribution">
+</p>
+
+| Language | Code lines | Share |
+|---|---:|---:|
+| Kotlin | 14,764 | 30.6% |
+| TypeScript | 9,900 | 20.5% |
+| PHP | 7,907 | 16.4% |
+| JavaScript | 7,459 | 15.5% |
+| HTML | 4,280 | 8.9% |
+| Blade | 2,360 | 4.9% |
+| CSS | 892 | 1.8% |
+| Arduino Sketch | 188 | 0.4% |
+| Gradle | 174 | 0.4% |
+| Bourne Shell | 117 | 0.2% |
+| SCSS | 98 | 0.2% |
+| DOS Batch | 71 | 0.1% |
 <!-- PROFILE_STATS_END -->
 
 ---

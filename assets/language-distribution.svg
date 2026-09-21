@@ -1,32 +1,32 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="900" height="630" viewBox="0 0 900 630">
 <rect width="100%" height="100%" rx="24" fill="#0d1117"/>
 <text x="48" y="48" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="25" font-weight="700">My Code Distribution</text>
-<text x="48" y="75" fill="#8b949e" font-family="Arial,Helvetica,sans-serif" font-size="14">Actual source-code lines • 16 active repositories • 48,630 lines</text>
+<text x="48" y="75" fill="#8b949e" font-family="Arial,Helvetica,sans-serif" font-size="14">Actual source-code lines • 14 active repositories • 48,266 lines</text>
 <text x="48" y="112" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="16">Kotlin</text>
 <rect x="180" y="96" width="470" height="20" rx="10" fill="#21262d"/>
 <rect x="180" y="96" width="470.0" height="20" rx="10" fill="#58A6FF"/>
-<text x="680" y="112" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="700">30.4%</text>
+<text x="680" y="112" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="700">30.6%</text>
 <text x="830" y="112" text-anchor="end" fill="#8b949e" font-family="Arial,Helvetica,sans-serif" font-size="13">14,764 lines</text>
 <text x="48" y="154" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="16">TypeScript</text>
 <rect x="180" y="138" width="470" height="20" rx="10" fill="#21262d"/>
 <rect x="180" y="138" width="315.2" height="20" rx="10" fill="#A371F7"/>
-<text x="680" y="154" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="700">20.4%</text>
+<text x="680" y="154" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="700">20.5%</text>
 <text x="830" y="154" text-anchor="end" fill="#8b949e" font-family="Arial,Helvetica,sans-serif" font-size="13">9,900 lines</text>
 <text x="48" y="196" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="16">PHP</text>
 <rect x="180" y="180" width="470" height="20" rx="10" fill="#21262d"/>
 <rect x="180" y="180" width="251.7" height="20" rx="10" fill="#3FB950"/>
-<text x="680" y="196" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="700">16.3%</text>
+<text x="680" y="196" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="700">16.4%</text>
 <text x="830" y="196" text-anchor="end" fill="#8b949e" font-family="Arial,Helvetica,sans-serif" font-size="13">7,907 lines</text>
 <text x="48" y="238" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="16">JavaScript</text>
 <rect x="180" y="222" width="470" height="20" rx="10" fill="#21262d"/>
 <rect x="180" y="222" width="237.5" height="20" rx="10" fill="#F0883E"/>
-<text x="680" y="238" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="700">15.3%</text>
+<text x="680" y="238" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="700">15.5%</text>
 <text x="830" y="238" text-anchor="end" fill="#8b949e" font-family="Arial,Helvetica,sans-serif" font-size="13">7,459 lines</text>
 <text x="48" y="280" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="16">HTML</text>
 <rect x="180" y="264" width="470" height="20" rx="10" fill="#21262d"/>
-<rect x="180" y="264" width="139.8" height="20" rx="10" fill="#F778BA"/>
-<text x="680" y="280" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="700">9.0%</text>
-<text x="830" y="280" text-anchor="end" fill="#8b949e" font-family="Arial,Helvetica,sans-serif" font-size="13">4,392 lines</text>
+<rect x="180" y="264" width="136.3" height="20" rx="10" fill="#F778BA"/>
+<text x="680" y="280" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="700">8.9%</text>
+<text x="830" y="280" text-anchor="end" fill="#8b949e" font-family="Arial,Helvetica,sans-serif" font-size="13">4,280 lines</text>
 <text x="48" y="322" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="16">Blade</text>
 <rect x="180" y="306" width="470" height="20" rx="10" fill="#21262d"/>
 <rect x="180" y="306" width="75.1" height="20" rx="10" fill="#79C0FF"/>
@@ -37,20 +37,20 @@
 <rect x="180" y="348" width="28.4" height="20" rx="10" fill="#D29922"/>
 <text x="680" y="364" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="700">1.8%</text>
 <text x="830" y="364" text-anchor="end" fill="#8b949e" font-family="Arial,Helvetica,sans-serif" font-size="13">892 lines</text>
-<text x="48" y="406" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="16">C/C++ Header</text>
+<text x="48" y="406" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="16">Arduino Sketch</text>
 <rect x="180" y="390" width="470" height="20" rx="10" fill="#21262d"/>
 <rect x="180" y="390" width="18.0" height="20" rx="10" fill="#8B949E"/>
-<text x="680" y="406" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="700">0.5%</text>
-<text x="830" y="406" text-anchor="end" fill="#8b949e" font-family="Arial,Helvetica,sans-serif" font-size="13">221 lines</text>
-<text x="48" y="448" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="16">Arduino Sketch</text>
+<text x="680" y="406" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="700">0.4%</text>
+<text x="830" y="406" text-anchor="end" fill="#8b949e" font-family="Arial,Helvetica,sans-serif" font-size="13">188 lines</text>
+<text x="48" y="448" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="16">Gradle</text>
 <rect x="180" y="432" width="470" height="20" rx="10" fill="#21262d"/>
 <rect x="180" y="432" width="18.0" height="20" rx="10" fill="#FF7B72"/>
 <text x="680" y="448" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="700">0.4%</text>
-<text x="830" y="448" text-anchor="end" fill="#8b949e" font-family="Arial,Helvetica,sans-serif" font-size="13">202 lines</text>
-<text x="48" y="490" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="16">Gradle</text>
+<text x="830" y="448" text-anchor="end" fill="#8b949e" font-family="Arial,Helvetica,sans-serif" font-size="13">174 lines</text>
+<text x="48" y="490" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="16">Bourne Shell</text>
 <rect x="180" y="474" width="470" height="20" rx="10" fill="#21262d"/>
 <rect x="180" y="474" width="18.0" height="20" rx="10" fill="#56D364"/>
-<text x="680" y="490" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="700">0.4%</text>
-<text x="830" y="490" text-anchor="end" fill="#8b949e" font-family="Arial,Helvetica,sans-serif" font-size="13">174 lines</text>
+<text x="680" y="490" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="700">0.2%</text>
+<text x="830" y="490" text-anchor="end" fill="#8b949e" font-family="Arial,Helvetica,sans-serif" font-size="13">117 lines</text>
 <text x="48" y="608" fill="#6e7681" font-family="Arial,Helvetica,sans-serif" font-size="12">Generated automatically with cloc • comments and blank lines excluded.</text>
 </svg>
