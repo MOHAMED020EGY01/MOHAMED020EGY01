@@ -4,15 +4,13 @@
 
 <p align="center">
   <img
-    src="https://capsule-render.vercel.app/api?type=waving&height=230&section=header&text=MOHAMED%20MOHAMED&fontSize=48&fontAlignY=36&fontColor=ffffff&desc=Software%20Developer%20%E2%80%A2%20Full-Stack%20%E2%80%A2%20Android%20%E2%80%A2%20AI%20%26%20IoT&descAlignY=58&descSize=17&animation=fadeIn"
+    src="https://capsule-render.vercel.app/api?type=waving&height=230&section=header&text=MOHAMED%20MOHAMED&fontSize=48&fontAlignY=36&fontColor=ffffff&desc=Software%20Developer%20%E2%80%A2%20Full-Stack%20%E2%80%A2%20Kotlin%20%E2%80%A2%20AI%20%26%20IoT&descAlignY=58&descSize=17&animation=fadeIn"
     width="100%"
   />
 </p>
 
 <p align="center">
-  <a href="https://github.com/MOHAMED020EGY01">
-    <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=20&duration=2800&pause=900&color=38BDF8&center=true&vCenter=true&width=900&lines=I+build+software+that+connects+people%2C+data+and+devices.;Laravel+%2B+React+%2B+Next.js;Kotlin+%2B+Jetpack+Compose;Computer+Vision+%2B+Python;ESP32+%2B+IoT;Always+learning.+Always+building." alt="Typing animation" />
-  </a>
+  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=20&duration=2800&pause=900&color=38BDF8&center=true&vCenter=true&width=900&lines=I+build+software+that+connects+people%2C+data+and+devices.;Laravel+%2B+React+%2B+Next.js;Kotlin+%2B+Jetpack+Compose;Computer+Vision+%2B+Python;ESP32+%2B+IoT;Always+learning.+Always+building." alt="Typing animation" />
 </p>
 
 <p align="center">
@@ -26,14 +24,16 @@
 
 ## 👨‍💻 About
 
-I'm **Mohamed Mohamed**, a software developer who enjoys working across different layers of a product — from backend architecture and web interfaces to Android applications, computer vision, and connected hardware.
+I'm **Mohamed Mohamed**, a software developer working across web applications, Android development, AI/computer vision, and connected hardware.
 
-My main focus is building systems that are:
+I enjoy taking a problem from **idea → architecture → implementation → working system**.
 
-- **Practical** — solving a real problem rather than adding unnecessary complexity.
-- **Maintainable** — clear structure, predictable behavior, and clean boundaries.
-- **Scalable** — designed with performance and future growth in mind.
-- **Interactive** — polished interfaces, useful feedback, and smooth user experiences.
+- **Backend:** Laravel, PHP, REST APIs, MySQL
+- **Frontend:** React, Next.js, TypeScript
+- **Android:** Kotlin, Jetpack Compose
+- **AI:** Python, PyTorch, Computer Vision, Object Detection
+- **IoT:** ESP32, ESP32-CAM, sensors and hardware control
+- **3D:** Unity, C#, Blender
 
 ---
 
@@ -43,14 +43,14 @@ My main focus is building systems that are:
   <tr>
     <td width="50%" valign="top">
 
-### 🌐 Full-Stack Systems
-Laravel APIs, authentication, databases, real-time features, React interfaces, dashboards and business applications.
+### 🌐 Full-Stack
+Laravel APIs, authentication, databases, real-time systems, React interfaces and business applications.
 
     </td>
     <td width="50%" valign="top">
 
-### 📱 Android Applications
-Kotlin, Jetpack Compose, local-first apps, background work, widgets, notifications and modern Android architecture.
+### 📱 Android
+Kotlin and Jetpack Compose applications with local data, background work, widgets and polished UI.
 
     </td>
   </tr>
@@ -58,13 +58,13 @@ Kotlin, Jetpack Compose, local-first apps, background work, widgets, notificatio
     <td width="50%" valign="top">
 
 ### 🧠 AI & Computer Vision
-Object detection, image processing, Python-based inference pipelines and AI systems that interact with real-world inputs.
+Object detection, image processing, inference pipelines and AI systems connected to real-world inputs.
 
     </td>
     <td width="50%" valign="top">
 
-### 🔌 IoT & Embedded
-ESP32 projects, sensors, device control and software that connects physical hardware with web or AI systems.
+### 🔌 IoT
+ESP32 projects, sensors, device control and software that connects physical hardware with web and AI systems.
 
     </td>
   </tr>
@@ -79,7 +79,7 @@ ESP32 projects, sensors, device control and software that connects physical hard
 </p>
 
 <p align="center">
-  <img src="https://skillicons.dev/icons?i=kotlin,androidstudio,java,python,pytorch,opencv&perline=9" />
+  <img src="https://skillicons.dev/icons?i=kotlin,python,pytorch,opencv&perline=9" />
 </p>
 
 <p align="center">
@@ -95,9 +95,9 @@ ESP32 projects, sensors, device control and software that connects physical hard
 ## 🚀 Selected Work
 
 ### 📱 HabitFlow
-**Android • Kotlin • Jetpack Compose • Room • WorkManager • Glance**
+**Kotlin • Jetpack Compose • Room • WorkManager • Glance**
 
-A local-first habit tracking application focused on rich UI, scheduling, interactive home-screen widgets, background reliability, calendar history, and Arabic/English support.
+A local-first Android habit tracking application with rich UI, custom scheduling, interactive home-screen widgets, background reliability, calendar history, and Arabic/English support.
 
 **Repository:** [MOHAMED020EGY01/HabitFlow](https://github.com/MOHAMED020EGY01/HabitFlow)
 
@@ -115,7 +115,7 @@ A team-oriented platform for projects, tasks, users, collaboration, real-time ch
 ### 🔧 Smart Service
 **Laravel • PHP • REST API**
 
-A service-oriented backend project built around Laravel and API-driven application architecture.
+A Laravel-based service platform focused on API-driven application architecture.
 
 **Repository:** [MOHAMED020EGY01/smart_service](https://github.com/MOHAMED020EGY01/smart_service)
 
@@ -124,32 +124,33 @@ A service-oriented backend project built around Laravel and API-driven applicati
 ### ♻️ Smart Basket
 **AI • Computer Vision • ESP32-CAM • FastAPI • YOLO • IoT**
 
-A hardware-integrated smart waste sorting system that combines computer vision with embedded devices for real-world object classification and sorting.
+A smart waste-sorting system combining computer vision and embedded hardware for real-world object classification and sorting.
 
 **Status:** Private project
 
 ---
 
-## 📊 GitHub
+## 🐍 Contribution Snake
 
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=MOHAMED020EGY01&show_icons=true&hide_border=true&theme=tokyonight&include_all_commits=true&count_private=true&rank_icon=github" height="180" />
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=MOHAMED020EGY01&layout=compact&hide_border=true&theme=tokyonight&langs_count=8" height="180" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/MOHAMED020EGY01/MOHAMED020EGY01/output/github-contribution-grid-snake-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/MOHAMED020EGY01/MOHAMED020EGY01/output/github-contribution-grid-snake.svg">
+    <img alt="GitHub contribution snake animation" src="https://raw.githubusercontent.com/MOHAMED020EGY01/MOHAMED020EGY01/output/github-contribution-grid-snake.svg" width="100%">
+  </picture>
 </p>
 
 <p align="center">
-  <img src="https://streak-stats.demolab.com?user=MOHAMED020EGY01&theme=tokyonight&hide_border=true&mode=weekly" width="70%" />
+  <b>223 contributions in the last year</b>
 </p>
 
 ---
 
-## 📈 Contribution Activity
+## 📊 GitHub Activity
 
 <p align="center">
-  <img
-    src="https://github-readme-activity-graph.vercel.app/graph?username=MOHAMED020EGY01&bg_color=0d1117&color=38bdf8&line=38bdf8&point=ffffff&area=true&hide_border=true"
-    width="100%"
-  />
+  <img src="https://github-readme-stats.vercel.app/api?username=MOHAMED020EGY01&show_icons=true&hide_border=true&theme=tokyonight&include_all_commits=true&count_private=true&rank_icon=github" height="180" />
+  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=MOHAMED020EGY01&layout=compact&hide_border=true&theme=tokyonight&langs_count=8" height="180" />
 </p>
 
 ---
@@ -157,7 +158,7 @@ A hardware-integrated smart waste sorting system that combines computer vision w
 ## 🧭 Current Direction
 
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=17&duration=2400&pause=700&color=A5B4FC&center=true&vCenter=true&width=850&lines=Backend+Architecture;Modern+Laravel+APIs;React+%2F+Next.js;Android+%2F+Compose;AI+%2F+Computer+Vision;IoT+%2F+ESP32" alt="Current direction" />
+  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=17&duration=2400&pause=700&color=A5B4FC&center=true&vCenter=true&width=850&lines=Backend+Architecture;Modern+Laravel+APIs;React+%2F+Next.js;Kotlin+%2F+Jetpack+Compose;AI+%2F+Computer+Vision;IoT+%2F+ESP32" alt="Current direction" />
 </p>
 
 ---
@@ -167,21 +168,21 @@ A hardware-integrated smart waste sorting system that combines computer vision w
 ```text
 Problem
    ↓
-Understand the requirements
+Understand
    ↓
-Design the simplest architecture that fits
+Design
    ↓
 Build
    ↓
-Test & verify
+Test
    ↓
 Measure
    ↓
 Improve
 ```
 
-> Good software is not about writing more code.  
-> It is about making the right decisions before and while writing it.
+> Build the simplest system that solves the real problem.
+> Then improve it where the evidence says it matters.
 
 ---
 
@@ -194,7 +195,7 @@ Improve
 </p>
 
 <p align="center">
-  <sub>Web • Mobile • AI • IoT • 3D</sub>
+  <sub>Web • Kotlin • AI • IoT • 3D</sub>
 </p>
 
 <p align="center">
