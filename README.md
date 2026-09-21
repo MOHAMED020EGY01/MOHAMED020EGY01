@@ -134,9 +134,9 @@ A smart waste-sorting system combining computer vision and embedded hardware for
 
 <p align="center">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/MOHAMED020EGY01/MOHAMED020EGY01/output/github-contribution-grid-snake-dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/MOHAMED020EGY01/MOHAMED020EGY01/output/github-contribution-grid-snake.svg">
-    <img alt="GitHub contribution snake animation" src="https://raw.githubusercontent.com/MOHAMED020EGY01/MOHAMED020EGY01/output/github-contribution-grid-snake.svg" width="100%">
+    <source media="(prefers-color-scheme: dark)" srcset="./assets/github-contribution-grid-snake-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="./assets/github-contribution-grid-snake.svg">
+    <img alt="GitHub contribution snake animation" src="./assets/github-contribution-grid-snake.svg" width="100%">
   </picture>
 </p>
 
@@ -149,18 +149,14 @@ A smart waste-sorting system combining computer vision and embedded hardware for
 ## 📊 GitHub Activity
 
 <p align="center">
-  <img src="https://github-readme-stats.vercel.app/api?username=MOHAMED020EGY01&show_icons=true&hide_border=true&theme=tokyonight&include_all_commits=true&count_private=true&rank_icon=github" height="180" />
-</p>
-
-## 💻 Language Distribution
-
-<p align="center">
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=MOHAMED020EGY01&layout=donut&hide_border=true&theme=tokyonight&langs_count=10&size_weight=0.5&count_weight=0.5" height="300" />
+  <img src="./assets/language-distribution.svg" alt="Programming language distribution" width="900">
 </p>
 
 <p align="center">
-  <sub>Percentages are calculated from the language breakdown of the repositories visible to GitHub's language analysis.</sub>
+  <sub>Language percentages are generated automatically from GitHub's repository language analysis.</sub>
 </p>
+
+---
 
 ---
 
