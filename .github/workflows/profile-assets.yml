@@ -14,7 +14,7 @@ permissions:
 jobs:
   update-assets:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
 
     steps:
       - name: Checkout profile
@@ -28,126 +28,219 @@ jobs:
             assets/github-contribution-grid-snake.svg
             assets/github-contribution-grid-snake-dark.svg?palette=github-dark
 
-      - name: Generate language distribution chart
+      - name: Install code counter
+        run: sudo apt-get update && sudo apt-get install -y cloc
+
+      - name: Generate language distribution from source code
         env:
           GH_TOKEN: ${{ secrets.PROFILE_STATS_TOKEN || github.token }}
         run: |
           python <<'PY'
           import json
-          import math
           import os
+          import shutil
+          import subprocess
+          import urllib.parse
           import urllib.request
           from pathlib import Path
 
-          user = "MOHAMED020EGY01"
-          token = os.environ.get("GH_TOKEN", "")
-          has_private_token = bool(os.environ.get("PROFILE_STATS_TOKEN"))
+          USER = "MOHAMED020EGY01"
+          PROFILE_REPO = f"{USER}/MOHAMED020EGY01"
+          TOKEN = os.environ.get("GH_TOKEN", "")
+          HAS_STATS_TOKEN = bool(os.environ.get("PROFILE_STATS_TOKEN"))
 
-          def get_json(url):
-              req = urllib.request.Request(
-                  url,
-                  headers={
-                      "Accept": "application/vnd.github+json",
-                      "X-GitHub-Api-Version": "2022-11-28",
-                      **({"Authorization": f"Bearer {token}"} if token else {}),
-                  },
-              )
-              with urllib.request.urlopen(req, timeout=30) as response:
+          def api_json(url):
+              headers = {
+                  "Accept": "application/vnd.github+json",
+                  "X-GitHub-Api-Version": "2022-11-28",
+              }
+              if TOKEN:
+                  headers["Authorization"] = f"Bearer {TOKEN}"
+              request = urllib.request.Request(url, headers=headers)
+              with urllib.request.urlopen(request, timeout=60) as response:
                   return json.load(response)
 
-          if has_private_token:
-              repos = get_json(
-                  "https://api.github.com/user/repos?per_page=100&type=all&affiliation=owner"
+          if HAS_STATS_TOKEN:
+              repos = api_json(
+                  "https://api.github.com/user/repos?per_page=100&affiliation=owner&sort=updated"
               )
           else:
-              repos = get_json(
-                  f"https://api.github.com/users/{user}/repos?per_page=100"
+              repos = api_json(
+                  f"https://api.github.com/users/{USER}/repos?per_page=100&sort=updated"
               )
 
+          repos = [
+              repo for repo in repos
+              if repo.get("owner", {}).get("login") == USER
+              and not repo.get("fork", False)
+              and repo.get("full_name") != PROFILE_REPO
+              and not repo.get("archived", False)
+          ]
+
+          root = Path("profile-code")
+          if root.exists():
+              shutil.rmtree(root)
+          root.mkdir()
+
           totals = {}
+          scanned_repos = 0
+
+          exclude_dirs = [
+              ".git",
+              "node_modules",
+              "vendor",
+              "dist",
+              "build",
+              "out",
+              ".next",
+              ".nuxt",
+              ".dart_tool",
+              "coverage",
+              ".gradle",
+              ".idea",
+              "Pods",
+              "__pycache__",
+              ".venv",
+              "venv",
+              "target",
+              "bin",
+              "obj",
+          ]
+
           for repo in repos:
-              if repo.get("fork"):
+              full_name = repo["full_name"]
+              target = root / full_name.split("/", 1)[1]
+
+              clone_url = f"https://github.com/{full_name}.git"
+              if TOKEN:
+                  auth_url = f"https://x-access-token:{urllib.parse.quote(TOKEN, safe='')}@github.com/{full_name}.git"
+              else:
+                  auth_url = clone_url
+
+              result = subprocess.run(
+                  ["git", "clone", "--depth", "1", auth_url, str(target)],
+                  stdout=subprocess.DEVNULL,
+                  stderr=subprocess.DEVNULL,
+                  timeout=180,
+              )
+
+              if result.returncode != 0:
                   continue
 
-              languages_url = repo.get("languages_url")
-              if not languages_url:
-                  continue
+              scanned_repos += 1
+
+              cmd = [
+                  "cloc",
+                  "--json",
+                  "--quiet",
+                  "--by-file",
+                  "--exclude-dir=" + ",".join(exclude_dirs),
+                  str(target),
+              ]
 
               try:
-                  languages = get_json(languages_url)
+                  data = subprocess.check_output(cmd, text=True, timeout=180)
+                  parsed = json.loads(data)
               except Exception:
                   continue
 
-              for language, bytes_count in languages.items():
-                  totals[language] = totals.get(language, 0) + bytes_count
+              for language, stats in parsed.get("SUM", {}).items():
+                  code_lines = int(stats.get("code", 0))
+                  if code_lines <= 0:
+                      continue
+                  totals[language] = totals.get(language, 0) + code_lines
 
-          total = sum(totals.values())
-          top = sorted(totals.items(), key=lambda item: item[1], reverse=True)[:8]
+          total_lines = sum(totals.values())
 
-          colors = [
-              "#58A6FF", "#A371F7", "#3FB950", "#F0883E",
-              "#F778BA", "#79C0FF", "#D29922", "#8B949E"
+          # Keep source/code languages and ignore documentation/config-only buckets.
+          ignored = {
+              "Markdown",
+              "Text",
+              "Bash",
+              "TOML",
+          }
+
+          filtered = {
+              language: lines
+              for language, lines in totals.items()
+              if language not in ignored and lines > 0
+          }
+
+          total_filtered = sum(filtered.values())
+          top = sorted(
+              filtered.items(),
+              key=lambda item: item[1],
+              reverse=True,
+          )[:10]
+
+          out = Path("assets/language-distribution.svg")
+          out.parent.mkdir(exist_ok=True)
+
+          width = 900
+          row_h = 42
+          height = 150 + row_h * max(len(top), 1) + 55
+
+          palette = [
+              "#58A6FF", "#A371F7", "#3FB950", "#F0883E", "#F778BA",
+              "#79C0FF", "#D29922", "#3FB950", "#8B949E", "#FF7B72"
           ]
-
-          width, height = 900, 430
-          cx, cy, radius = 250, 215, 140
-
-          def polar(angle, r):
-              a = math.radians(angle - 90)
-              return cx + r * math.cos(a), cy + r * math.sin(a)
-
-          def arc_path(start, end):
-              x1, y1 = polar(start, radius)
-              x2, y2 = polar(end, radius)
-              large = 1 if end - start > 180 else 0
-              return f"M {cx} {cy} L {x1:.2f} {y1:.2f} A {radius} {radius} 0 {large} 1 {x2:.2f} {y2:.2f} Z"
 
           parts = [
               f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
               '<rect width="100%" height="100%" rx="24" fill="#0d1117"/>',
-              '<text x="48" y="54" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="26" font-weight="700">Language Distribution</text>',
-              '<text x="48" y="82" fill="#8b949e" font-family="Arial,Helvetica,sans-serif" font-size="14">Code bytes across repositories</text>',
+              '<text x="48" y="52" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="26" font-weight="700">My Code Distribution</text>',
+              f'<text x="48" y="78" fill="#8b949e" font-family="Arial,Helvetica,sans-serif" font-size="14">Source-code lines across {scanned_repos} owned, non-fork repositories</text>',
           ]
 
-          angle = 0
-          if total:
-              for i, (language, value) in enumerate(top):
-                  pct = value / total * 100
-                  sweep = pct / 100 * 360
-                  if pct >= 99.999:
-                      parts.append(f'<circle cx="{cx}" cy="{cy}" r="{radius}" fill="{colors[i % len(colors)]}"/>')
-                  else:
-                      parts.append(
-                          f'<path d="{arc_path(angle, angle + sweep)}" fill="{colors[i % len(colors)]}"/>'
-                      )
-                  angle += sweep
+          y = 112
+          if top and total_filtered:
+              max_lines = top[0][1]
+
+              for i, (language, lines) in enumerate(top):
+                  pct = lines / total_filtered * 100
+                  color = palette[i % len(palette)]
+                  bar_w = max(20, (lines / max_lines) * 470)
+
+                  parts.append(
+                      f'<text x="48" y="{y}" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="16">{language}</text>'
+                  )
+                  parts.append(
+                      f'<rect x="180" y="{y-16}" width="470" height="20" rx="10" fill="#21262d"/>'
+                  )
+                  parts.append(
+                      f'<rect x="180" y="{y-16}" width="{bar_w:.1f}" height="20" rx="10" fill="{color}"/>'
+                  )
+                  parts.append(
+                      f'<text x="680" y="{y}" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="700">{pct:.1f}%</text>'
+                  )
+                  parts.append(
+                      f'<text x="820" y="{y}" text-anchor="end" fill="#8b949e" font-family="Arial,Helvetica,sans-serif" font-size="13">{lines:,} lines</text>'
+                  )
+                  y += row_h
           else:
-              parts.append(f'<circle cx="{cx}" cy="{cy}" r="{radius}" fill="#21262d"/>')
+              parts.append(
+                  '<text x="48" y="130" fill="#8b949e" font-family="Arial,Helvetica,sans-serif" font-size="15">No source-code statistics were generated.</text>'
+              )
 
-          parts += [
-              f'<circle cx="{cx}" cy="{cy}" r="84" fill="#0d1117"/>',
-              f'<text x="{cx}" y="{cy-6}" text-anchor="middle" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="24" font-weight="700">{len(repos)}</text>',
-              f'<text x="{cx}" y="{cy+18}" text-anchor="middle" fill="#8b949e" font-family="Arial,Helvetica,sans-serif" font-size="13">repositories</text>',
-          ]
+          scope = "owned non-fork repositories"
+          if HAS_STATS_TOKEN:
+              scope += " including private repositories"
 
-          y = 130
-          for i, (language, value) in enumerate(top):
-              pct = value / total * 100 if total else 0
-              color = colors[i % len(colors)]
-              parts.append(f'<circle cx="485" cy="{y-5}" r="6" fill="{color}"/>')
-              parts.append(f'<text x="502" y="{y}" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="16">{language}</text>')
-              parts.append(f'<text x="820" y="{y}" text-anchor="end" fill="#8b949e" font-family="Arial,Helvetica,sans-serif" font-size="15">{pct:.1f}%</text>')
-              y += 34
-
-          scope = "all owned repositories" if has_private_token else "public repositories"
-          parts.append(f'<text x="48" y="395" fill="#6e7681" font-family="Arial,Helvetica,sans-serif" font-size="12">Source: GitHub language analysis • {scope}</text>')
+          parts.append(
+              f'<text x="48" y="{height-26}" fill="#6e7681" font-family="Arial,Helvetica,sans-serif" font-size="12">Measured with cloc • {scope} • comments and blank lines excluded</text>'
+          )
           parts.append("</svg>")
 
-          Path("assets").mkdir(exist_ok=True)
-          Path("assets/language-distribution.svg").write_text("\n".join(parts), encoding="utf-8")
+          out.write_text("\n".join(parts), encoding="utf-8")
+
+          print(f"Scanned repositories: {scanned_repos}")
+          print(f"Total source lines before filtering: {total_lines}")
+          print("Top languages:")
+          for language, lines in top:
+              print(f"  {language}: {lines} ({lines / total_filtered * 100:.2f}%)")
           PY
 
-      - name: Commit updated assets
+      - name: Commit updated profile assets
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -156,5 +249,5 @@ jobs:
             echo "No asset changes."
             exit 0
           fi
-          git commit -m "chore: update profile assets [skip ci]"
+          git commit -m "chore: update profile code stats [skip ci]"
           git push
