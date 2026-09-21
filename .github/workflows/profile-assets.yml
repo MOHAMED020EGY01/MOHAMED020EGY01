@@ -426,69 +426,69 @@ jobs:
               projects = project_section(scanned)
 
               readme = f"""# {html.escape(profile.get("name") or USER)}
-
-<p align="center">
-  <img src="./assets/header.svg" width="100%" alt="Profile header">
-</p>
-
-<p align="center">
-  <img src="./assets/github-contribution-grid-snake.svg" width="100%" alt="Contribution snake">
-</p>
-
-## About
-
-{html.escape(profile.get("bio") or "Software Developer building across web, mobile, AI and IoT.")}
-
----
-
-## Profile Snapshot
-
-| Metric | Value |
-|---|---:|
-| Active owned repositories | {len(scanned)} |
-| Contributions in the last year | {contribution_count} |
-| Source-code lines analyzed | {total_lines:,} |
-| Languages detected | {len(totals)} |
-
----
-
-## My Code Distribution
-
-<p align="center">
-  <img src="./assets/language-distribution.svg" width="900" alt="Language distribution chart">
-</p>
-
-{tech_table}
-
----
-
-## Recent Projects
-
-{projects or "No projects available."}
-
----
-
-## Engineering Focus
-
-<p align="center">
-  <b>Full-Stack • Kotlin • AI • Computer Vision • IoT • 3D</b>
-</p>
-
----
-
-## GitHub
-
-<p align="center">
-  <a href="https://github.com/{USER}">github.com/{USER}</a>
-</p>
-
-<p align="center">
-  <sub>This profile is regenerated automatically from GitHub data and source-code analysis.</sub>
-</p>
-
-<p align="center">
-  <img src="./assets/footer.svg" width="100%" alt="Profile footer">
-</p>
+          
+          <p align="center">
+            <img src="./assets/header.svg" width="100%" alt="Profile header">
+          </p>
+          
+          <p align="center">
+            <img src="./assets/github-contribution-grid-snake.svg" width="100%" alt="Contribution snake">
+          </p>
+          
+          ## About
+          
+          {html.escape(profile.get("bio") or "Software Developer building across web, mobile, AI and IoT.")}
+          
+          ---
+          
+          ## Profile Snapshot
+          
+          | Metric | Value |
+          |---|---:|
+          | Active owned repositories | {len(scanned)} |
+          | Contributions in the last year | {contribution_count} |
+          | Source-code lines analyzed | {total_lines:,} |
+          | Languages detected | {len(totals)} |
+          
+          ---
+          
+          ## My Code Distribution
+          
+          <p align="center">
+            <img src="./assets/language-distribution.svg" width="900" alt="Language distribution chart">
+          </p>
+          
+          {tech_table}
+          
+          ---
+          
+          ## Recent Projects
+          
+          {projects or "No projects available."}
+          
+          ---
+          
+          ## Engineering Focus
+          
+          <p align="center">
+            <b>Full-Stack • Kotlin • AI • Computer Vision • IoT • 3D</b>
+          </p>
+          
+          ---
+          
+          ## GitHub
+          
+          <p align="center">
+            <a href="https://github.com/{USER}">github.com/{USER}</a>
+          </p>
+          
+          <p align="center">
+            <sub>This profile is regenerated automatically from GitHub data and source-code analysis.</sub>
+          </p>
+          
+          <p align="center">
+            <img src="./assets/footer.svg" width="100%" alt="Profile footer">
+          </p>
 """
 
               (ROOT / "README.md").write_text(
