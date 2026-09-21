@@ -11,6 +11,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: profile-assets
+  cancel-in-progress: true
+
 jobs:
   profile:
     runs-on: ubuntu-latest
@@ -474,4 +478,6 @@ jobs:
             exit 0
           fi
           git commit -m "chore: regenerate GitHub profile [skip ci]"
+          git fetch origin main
+          git rebase origin/main
           git push
