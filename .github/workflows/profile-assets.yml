@@ -1,43 +1,40 @@
-name: Update Profile Assets
+
+name: Generate GitHub Profile
 
 on:
-  push:
-    branches:
-      - main
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "17 0 * * *"
   workflow_dispatch:
+  push:
+    branches: [main]
 
 permissions:
   contents: write
 
 jobs:
-  update-assets:
+  profile:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 30
 
     steps:
-      - name: Checkout profile
+      - name: Checkout profile repository
         uses: actions/checkout@v4
 
-      - name: Generate contribution snake
-        uses: Platane/snk/svg-only@v3
-        with:
-          github_user_name: MOHAMED020EGY01
-          outputs: |
-            assets/github-contribution-grid-snake.svg
-            assets/github-contribution-grid-snake-dark.svg?palette=github-dark
+      - name: Install cloc
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cloc
 
-      - name: Install code counter
-        run: sudo apt-get update && sudo apt-get install -y cloc
-
-      - name: Generate language distribution from source code
+      - name: Generate profile, stats and charts
         env:
-          GH_TOKEN: ${{ secrets.PROFILE_STATS_TOKEN || github.token }}
+          PROFILE_STATS_TOKEN: ${{ secrets.PROFILE_STATS_TOKEN }}
         run: |
           python <<'PY'
+          import datetime as dt
+          import html
           import json
           import os
+          import re
           import shutil
           import subprocess
           import urllib.parse
@@ -46,208 +43,472 @@ jobs:
 
           USER = "MOHAMED020EGY01"
           PROFILE_REPO = f"{USER}/MOHAMED020EGY01"
-          TOKEN = os.environ.get("GH_TOKEN", "")
-          HAS_STATS_TOKEN = bool(os.environ.get("PROFILE_STATS_TOKEN"))
+          TOKEN = os.environ.get("PROFILE_STATS_TOKEN", "")
+          ROOT = Path.cwd()
+          ASSETS = ROOT / "assets"
+          WORK = ROOT / ".profile-work"
 
-          def api_json(url):
+          EXCLUDE_DIRS = [
+              ".git", "node_modules", "vendor", "dist", "build", "out",
+              ".next", ".nuxt", ".dart_tool", "coverage", ".gradle",
+              ".idea", "Pods", "__pycache__", ".venv", "venv", "target",
+              "bin", "obj", "debug", "release", ".expo"
+          ]
+
+          IGNORE_LANGUAGES = {
+              "Markdown", "Text", "JSON", "YAML", "TOML", "XML", "INI"
+          }
+
+          COLORS = [
+              "#58A6FF", "#A371F7", "#3FB950", "#F0883E", "#F778BA",
+              "#79C0FF", "#D29922", "#8B949E", "#FF7B72", "#56D364"
+          ]
+
+          def api_json(url, method="GET", payload=None):
               headers = {
                   "Accept": "application/vnd.github+json",
                   "X-GitHub-Api-Version": "2022-11-28",
+                  "User-Agent": "MOHAMED020EGY01-profile-generator"
               }
               if TOKEN:
                   headers["Authorization"] = f"Bearer {TOKEN}"
-              request = urllib.request.Request(url, headers=headers)
-              with urllib.request.urlopen(request, timeout=60) as response:
+
+              data = None
+              if payload is not None:
+                  data = json.dumps(payload).encode("utf-8")
+                  headers["Content-Type"] = "application/json"
+
+              req = urllib.request.Request(
+                  url, headers=headers, method=method, data=data
+              )
+              with urllib.request.urlopen(req, timeout=60) as response:
                   return json.load(response)
 
-          if HAS_STATS_TOKEN:
-              repos = api_json(
-                  "https://api.github.com/user/repos?per_page=100&affiliation=owner&sort=updated"
-              )
-          else:
-              repos = api_json(
-                  f"https://api.github.com/users/{USER}/repos?per_page=100&sort=updated"
-              )
-
-          repos = [
-              repo for repo in repos
-              if repo.get("owner", {}).get("login") == USER
-              and not repo.get("fork", False)
-              and repo.get("full_name") != PROFILE_REPO
-              and not repo.get("archived", False)
-          ]
-
-          root = Path("profile-code")
-          if root.exists():
-              shutil.rmtree(root)
-          root.mkdir()
-
-          totals = {}
-          scanned_repos = 0
-
-          exclude_dirs = [
-              ".git",
-              "node_modules",
-              "vendor",
-              "dist",
-              "build",
-              "out",
-              ".next",
-              ".nuxt",
-              ".dart_tool",
-              "coverage",
-              ".gradle",
-              ".idea",
-              "Pods",
-              "__pycache__",
-              ".venv",
-              "venv",
-              "target",
-              "bin",
-              "obj",
-          ]
-
-          for repo in repos:
-              full_name = repo["full_name"]
-              target = root / full_name.split("/", 1)[1]
-
-              clone_url = f"https://github.com/{full_name}.git"
+          def get_repositories():
               if TOKEN:
-                  auth_url = f"https://x-access-token:{urllib.parse.quote(TOKEN, safe='')}@github.com/{full_name}.git"
+                  repos = api_json(
+                      "https://api.github.com/user/repos?per_page=100&affiliation=owner&sort=updated"
+                  )
               else:
-                  auth_url = clone_url
+                  repos = api_json(
+                      f"https://api.github.com/users/{USER}/repos?per_page=100&sort=updated"
+                  )
+
+              return [
+                  repo for repo in repos
+                  if repo.get("owner", {}).get("login") == USER
+                  and not repo.get("fork", False)
+                  and repo.get("full_name") != PROFILE_REPO
+                  and not repo.get("archived", False)
+              ]
+
+          def clone_repo(repo):
+              target = WORK / repo["name"]
+              if target.exists():
+                  shutil.rmtree(target)
+
+              url = f"https://github.com/{repo['full_name']}.git"
+
+              if TOKEN:
+                  safe = urllib.parse.quote(TOKEN, safe="")
+                  url = (
+                      f"https://x-access-token:{safe}"
+                      f"@github.com/{repo['full_name']}.git"
+                  )
 
               result = subprocess.run(
-                  ["git", "clone", "--depth", "1", auth_url, str(target)],
+                  ["git", "clone", "--depth", "1", url, str(target)],
                   stdout=subprocess.DEVNULL,
                   stderr=subprocess.DEVNULL,
-                  timeout=180,
+                  timeout=180
               )
+              return result.returncode == 0
 
-              if result.returncode != 0:
-                  continue
-
-              scanned_repos += 1
-
+          def count_source(repo_path):
               cmd = [
                   "cloc",
                   "--json",
                   "--quiet",
-                  "--by-file",
-                  "--exclude-dir=" + ",".join(exclude_dirs),
-                  str(target),
+                  "--exclude-dir=" + ",".join(EXCLUDE_DIRS),
+                  str(repo_path)
               ]
 
               try:
-                  data = subprocess.check_output(cmd, text=True, timeout=180)
-                  parsed = json.loads(data)
+                  data = json.loads(
+                      subprocess.check_output(
+                          cmd, text=True, timeout=180
+                      )
+                  )
               except Exception:
-                  continue
+                  return {}
 
-              for language, stats in parsed.get("SUM", {}).items():
-                  code_lines = int(stats.get("code", 0))
-                  if code_lines <= 0:
-                      continue
-                  totals[language] = totals.get(language, 0) + code_lines
+              result = {}
+              for language, info in data.get("SUM", {}).items():
+                  lines = int(info.get("code", 0))
+                  if lines > 0 and language not in IGNORE_LANGUAGES:
+                      result[language] = lines
 
-          total_lines = sum(totals.values())
+              return result
 
-          # Keep source/code languages and ignore documentation/config-only buckets.
-          ignored = {
-              "Markdown",
-              "Text",
-              "Bash",
-              "TOML",
-          }
+          def contributions_last_year():
+              if TOKEN:
+                  today = dt.datetime.now(dt.timezone.utc)
+                  start = today - dt.timedelta(days=365)
 
-          filtered = {
-              language: lines
-              for language, lines in totals.items()
-              if language not in ignored and lines > 0
-          }
+                  query = """
+                  query($from: DateTime!, $to: DateTime!) {
+                    viewer {
+                      contributionsCollection(from: $from, to: $to) {
+                        contributionCalendar {
+                          totalContributions
+                        }
+                      }
+                    }
+                  }
+                  """
 
-          total_filtered = sum(filtered.values())
-          top = sorted(
-              filtered.items(),
-              key=lambda item: item[1],
-              reverse=True,
-          )[:10]
+                  try:
+                      result = api_json(
+                          "https://api.github.com/graphql",
+                          method="POST",
+                          payload={
+                              "query": query,
+                              "variables": {
+                                  "from": start.isoformat(),
+                                  "to": today.isoformat()
+                              }
+                          }
+                      )
+                      return str(
+                          result["data"]["viewer"]
+                          ["contributionsCollection"]
+                          ["contributionCalendar"]
+                          ["totalContributions"]
+                      )
+                  except Exception:
+                      pass
 
-          out = Path("assets/language-distribution.svg")
-          out.parent.mkdir(exist_ok=True)
-
-          width = 900
-          row_h = 42
-          height = 150 + row_h * max(len(top), 1) + 55
-
-          palette = [
-              "#58A6FF", "#A371F7", "#3FB950", "#F0883E", "#F778BA",
-              "#79C0FF", "#D29922", "#3FB950", "#8B949E", "#FF7B72"
-          ]
-
-          parts = [
-              f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
-              '<rect width="100%" height="100%" rx="24" fill="#0d1117"/>',
-              '<text x="48" y="52" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="26" font-weight="700">My Code Distribution</text>',
-              f'<text x="48" y="78" fill="#8b949e" font-family="Arial,Helvetica,sans-serif" font-size="14">Source-code lines across {scanned_repos} owned, non-fork repositories</text>',
-          ]
-
-          y = 112
-          if top and total_filtered:
-              max_lines = top[0][1]
-
-              for i, (language, lines) in enumerate(top):
-                  pct = lines / total_filtered * 100
-                  color = palette[i % len(palette)]
-                  bar_w = max(20, (lines / max_lines) * 470)
-
-                  parts.append(
-                      f'<text x="48" y="{y}" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="16">{language}</text>'
+              try:
+                  req = urllib.request.Request(
+                      f"https://github.com/{USER}",
+                      headers={"User-Agent": "Mozilla/5.0"}
                   )
-                  parts.append(
-                      f'<rect x="180" y="{y-16}" width="470" height="20" rx="10" fill="#21262d"/>'
+                  page = urllib.request.urlopen(
+                      req, timeout=60
+                  ).read().decode("utf-8", "ignore")
+
+                  match = re.search(
+                      r"([0-9,]+)\\s+contributions? in the last year",
+                      page
                   )
-                  parts.append(
-                      f'<rect x="180" y="{y-16}" width="{bar_w:.1f}" height="20" rx="10" fill="{color}"/>'
-                  )
-                  parts.append(
-                      f'<text x="680" y="{y}" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="700">{pct:.1f}%</text>'
-                  )
-                  parts.append(
-                      f'<text x="820" y="{y}" text-anchor="end" fill="#8b949e" font-family="Arial,Helvetica,sans-serif" font-size="13">{lines:,} lines</text>'
-                  )
-                  y += row_h
-          else:
-              parts.append(
-                  '<text x="48" y="130" fill="#8b949e" font-family="Arial,Helvetica,sans-serif" font-size="15">No source-code statistics were generated.</text>'
+                  if match:
+                      return match.group(1)
+
+              except Exception:
+                  pass
+
+              return "See GitHub activity"
+
+          def make_header(name, bio, repo_count):
+              title = html.escape(name or USER)
+              subtitle = html.escape(
+                  bio or "Software Developer"
               )
 
-          scope = "owned non-fork repositories"
-          if HAS_STATS_TOKEN:
-              scope += " including private repositories"
+              svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="270" viewBox="0 0 1200 270">
+          <defs>
+            <linearGradient id="g" x1="0" x2="1">
+              <stop offset="0%" stop-color="#0d1117"/>
+              <stop offset="50%" stop-color="#111827"/>
+              <stop offset="100%" stop-color="#0d1117"/>
+            </linearGradient>
+            <style>
+              .title {{ font: 700 46px Arial, sans-serif; fill: #f0f6fc; }}
+              .sub {{ font: 20px Arial, sans-serif; fill: #8b949e; }}
+              .small {{ font: 15px Arial, sans-serif; fill: #58A6FF; }}
+              .dot {{ animation: blink 2.4s ease-in-out infinite; }}
+              @keyframes blink {{ 0%,100% {{ opacity:.25; }} 50% {{ opacity:1; }} }}
+            </style>
+          </defs>
+          <rect width="1200" height="270" rx="28" fill="url(#g)"/>
+          <circle class="dot" cx="1045" cy="65" r="7" fill="#58A6FF"/>
+          <circle class="dot" cx="1090" cy="105" r="5" fill="#A371F7"/>
+          <circle class="dot" cx="1010" cy="115" r="5" fill="#3FB950"/>
+          <path d="M70 205 C280 125 430 235 620 155 S980 115 1140 200"
+                fill="none" stroke="#1f6feb" stroke-width="2" opacity=".5"/>
+          <text x="70" y="98" class="title">{title}</text>
+          <text x="70" y="140" class="sub">{subtitle}</text>
+          <text x="70" y="184" class="small">{repo_count} active owned repositories</text>
+          </svg>'''
 
-          parts.append(
-              f'<text x="48" y="{height-26}" fill="#6e7681" font-family="Arial,Helvetica,sans-serif" font-size="12">Measured with cloc • {scope} • comments and blank lines excluded</text>'
-          )
-          parts.append("</svg>")
+              (ASSETS / "header.svg").write_text(svg, encoding="utf-8")
 
-          out.write_text("\n".join(parts), encoding="utf-8")
+          def make_footer():
+              svg = '''<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="130" viewBox="0 0 1200 130">
+          <defs>
+            <linearGradient id="f" x1="0" x2="1">
+              <stop offset="0%" stop-color="#0d1117"/>
+              <stop offset="50%" stop-color="#111827"/>
+              <stop offset="100%" stop-color="#0d1117"/>
+            </linearGradient>
+            <style>
+              .line { animation: move 4s linear infinite; }
+              @keyframes move {
+                from { transform: translateX(-50px); }
+                to { transform: translateX(50px); }
+              }
+            </style>
+          </defs>
+          <rect width="1200" height="130" rx="28" fill="url(#f)"/>
+          <path class="line" d="M0 92 Q300 20 600 92 T1200 92"
+                fill="none" stroke="#58A6FF" stroke-width="2" opacity=".5"/>
+          <circle cx="600" cy="82" r="5" fill="#58A6FF"/>
+          </svg>'''
 
-          print(f"Scanned repositories: {scanned_repos}")
-          print(f"Total source lines before filtering: {total_lines}")
-          print("Top languages:")
-          for language, lines in top:
-              print(f"  {language}: {lines} ({lines / total_filtered * 100:.2f}%)")
+              (ASSETS / "footer.svg").write_text(svg, encoding="utf-8")
+
+          def make_language_chart(totals, repo_count):
+              rows = sorted(
+                  totals.items(),
+                  key=lambda x: x[1],
+                  reverse=True
+              )[:10]
+
+              source_lines = sum(totals.values())
+              width = 900
+              row_h = 42
+              height = 160 + max(len(rows), 1) * row_h + 50
+
+              svg = [
+                  f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">',
+                  '<rect width="100%" height="100%" rx="24" fill="#0d1117"/>',
+                  '<text x="48" y="48" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="25" font-weight="700">My Code Distribution</text>',
+                  f'<text x="48" y="75" fill="#8b949e" font-family="Arial,Helvetica,sans-serif" font-size="14">Actual source-code lines • {repo_count} active repositories • {source_lines:,} lines</text>'
+              ]
+
+              y = 112
+
+              if rows and source_lines:
+                  max_lines = rows[0][1]
+
+                  for index, (language, lines) in enumerate(rows):
+                      share = lines / source_lines * 100
+                      bar = max(18, 470 * lines / max_lines)
+                      color = COLORS[index % len(COLORS)]
+
+                      svg.extend([
+                          f'<text x="48" y="{y}" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="16">{html.escape(language)}</text>',
+                          f'<rect x="180" y="{y-16}" width="470" height="20" rx="10" fill="#21262d"/>',
+                          f'<rect x="180" y="{y-16}" width="{bar:.1f}" height="20" rx="10" fill="{color}"/>',
+                          f'<text x="680" y="{y}" fill="#f0f6fc" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="700">{share:.1f}%</text>',
+                          f'<text x="830" y="{y}" text-anchor="end" fill="#8b949e" font-family="Arial,Helvetica,sans-serif" font-size="13">{lines:,} lines</text>'
+                      ])
+
+                      y += row_h
+
+              svg.append(
+                  f'<text x="48" y="{height-22}" fill="#6e7681" font-family="Arial,Helvetica,sans-serif" font-size="12">Generated automatically with cloc • comments and blank lines excluded.</text>'
+              )
+              svg.append("</svg>")
+
+              (ASSETS / "language-distribution.svg").write_text(
+                  "\n".join(svg),
+                  encoding="utf-8"
+              )
+
+          def project_section(repos):
+              selected = sorted(
+                  repos,
+                  key=lambda r: (
+                      r.get("updated_at") or "",
+                      r.get("stargazers_count", 0),
+                      r.get("size", 0)
+                  ),
+                  reverse=True
+              )[:8]
+
+              blocks = []
+
+              for repo in selected:
+                  name = html.escape(repo["name"])
+                  description = html.escape(
+                      repo.get("description")
+                      or "No repository description provided."
+                  )
+                  language = html.escape(
+                      repo.get("language") or "Code"
+                  )
+                  visibility = (
+                      "Private" if repo.get("private")
+                      else "Public"
+                  )
+                  stars = int(repo.get("stargazers_count", 0))
+                  updated = (repo.get("updated_at") or "")[:10]
+                  url = repo["html_url"]
+
+                  blocks.append(
+                      f'### [{name}]({url})\n'
+                      f'**{language} • {visibility} • ★ {stars}**  \n'
+                      f'{description}  \n'
+                      f'Last updated: {updated}'
+                  )
+
+              return "\n\n---\n\n".join(blocks)
+
+          def language_table(totals):
+              total = sum(totals.values())
+              rows = sorted(
+                  totals.items(),
+                  key=lambda x: x[1],
+                  reverse=True
+              )[:12]
+
+              if not rows or not total:
+                  return "No source-code languages detected."
+
+              lines = [
+                  "| Language | Code lines | Share |",
+                  "|---|---:|---:|"
+              ]
+
+              for language, count in rows:
+                  share = count / total * 100
+                  lines.append(
+                      f"| {language} | {count:,} | {share:.1f}% |"
+                  )
+
+              return "\n".join(lines)
+
+          def main():
+              if WORK.exists():
+                  shutil.rmtree(WORK)
+
+              if ASSETS.exists():
+                  ASSETS.mkdir(exist_ok=True)
+              else:
+                  ASSETS.mkdir()
+
+              WORK.mkdir()
+
+              repos = get_repositories()
+              totals = {}
+              scanned = []
+
+              for repo in repos:
+                  if not clone_repo(repo):
+                      continue
+
+                  scanned.append(repo)
+                  counts = count_source(WORK / repo["name"])
+
+                  for language, lines in counts.items():
+                      totals[language] = totals.get(language, 0) + lines
+
+              total_lines = sum(totals.values())
+              contribution_count = contributions_last_year()
+
+              try:
+                  profile = api_json(
+                      f"https://api.github.com/users/{USER}"
+                  )
+              except Exception:
+                  profile = {"name": USER, "bio": ""}
+
+              make_header(
+                  profile.get("name") or USER,
+                  profile.get("bio") or "Software Developer",
+                  len(scanned)
+              )
+              make_footer()
+              make_language_chart(totals, len(scanned))
+
+              tech_table = language_table(totals)
+              projects = project_section(scanned)
+
+              readme = f"""# {html.escape(profile.get("name") or USER)}
+
+<p align="center">
+  <img src="./assets/header.svg" width="100%" alt="Profile header">
+</p>
+
+<p align="center">
+  <img src="./assets/github-contribution-grid-snake.svg" width="100%" alt="Contribution snake">
+</p>
+
+## About
+
+{html.escape(profile.get("bio") or "Software Developer building across web, mobile, AI and IoT.")}
+
+---
+
+## Profile Snapshot
+
+| Metric | Value |
+|---|---:|
+| Active owned repositories | {len(scanned)} |
+| Contributions in the last year | {contribution_count} |
+| Source-code lines analyzed | {total_lines:,} |
+| Languages detected | {len(totals)} |
+
+---
+
+## My Code Distribution
+
+<p align="center">
+  <img src="./assets/language-distribution.svg" width="900" alt="Language distribution chart">
+</p>
+
+{tech_table}
+
+---
+
+## Recent Projects
+
+{projects or "No projects available."}
+
+---
+
+## Engineering Focus
+
+<p align="center">
+  <b>Full-Stack • Kotlin • AI • Computer Vision • IoT • 3D</b>
+</p>
+
+---
+
+## GitHub
+
+<p align="center">
+  <a href="https://github.com/{USER}">github.com/{USER}</a>
+</p>
+
+<p align="center">
+  <sub>This profile is regenerated automatically from GitHub data and source-code analysis.</sub>
+</p>
+
+<p align="center">
+  <img src="./assets/footer.svg" width="100%" alt="Profile footer">
+</p>
+"""
+
+              (ROOT / "README.md").write_text(
+                  readme,
+                  encoding="utf-8"
+              )
+
+              shutil.rmtree(WORK, ignore_errors=True)
+
+          main()
           PY
 
-      - name: Commit updated profile assets
+      - name: Commit generated profile
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/
+          git add README.md assets/
           if git diff --cached --quiet; then
-            echo "No asset changes."
+            echo "Profile is already up to date."
             exit 0
           fi
-          git commit -m "chore: update profile code stats [skip ci]"
+          git commit -m "chore: regenerate GitHub profile [skip ci]"
           git push
