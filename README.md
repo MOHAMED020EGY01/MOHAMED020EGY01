@@ -3,13 +3,6 @@
 <!-- ========================================================= -->
 
 <p align="center">
-  <img
-    src="https://capsule-render.vercel.app/api?type=waving&height=230&section=header&text=MOHAMED%20MOHAMED&fontSize=48&fontAlignY=36&fontColor=ffffff&desc=Software%20Developer%20%E2%80%A2%20Full-Stack%20%E2%80%A2%20Kotlin%20%E2%80%A2%20AI%20%26%20IoT&descAlignY=58&descSize=17&animation=fadeIn"
-    width="100%"
-  />
-</p>
-
-<p align="center">
   <a href="https://github.com/MOHAMED020EGY01">
     <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=20&duration=2800&pause=900&color=38BDF8&center=true&vCenter=true&width=900&lines=I+build+software+that+connects+people%2C+data+and+devices.;Laravel+%2B+React+%2B+Next.js;Kotlin+%2B+Jetpack+Compose;Computer+Vision+%2B+Python;ESP32+%2B+IoT;Always+learning.+Always+building." alt="Typing animation" />
   </a>
