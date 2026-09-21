@@ -143,7 +143,10 @@ jobs:
                   return {}
 
               result = {}
-              for language, info in data.get("SUM", {}).items():
+              for language, info in data.items():
+                  if language in {"header", "SUM"} or not isinstance(info, dict):
+                      continue
+
                   lines = int(info.get("code", 0))
                   if lines > 0 and language not in IGNORE_LANGUAGES:
                       result[language] = lines
@@ -198,7 +201,7 @@ jobs:
                   ).read().decode("utf-8", "ignore")
 
                   match = re.search(
-                      r"([0-9,]+)\\s+contributions? in the last year",
+                      r"([0-9,]+)\s+contributions? in the last year",
                       page
                   )
                   if match:
