@@ -135,7 +135,7 @@ A smart waste-sorting system combining computer vision and embedded hardware for
 ## 🐍 Contribution Snake
 
 <p align="center">
-  <img src="./assets/assets/github-contribution-grid-snake-dark.svg" width="100%" alt="Contribution snake game">
+  <img src="./assets/github-contribution-grid-snake-dark.svg" width="100%" alt="Contribution snake game">
 </p>
 
 > The animation is based on the GitHub contribution grid and is refreshed from repository data.
