@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="270" viewBox="0 0 1200 270">
+<defs>
+  <linearGradient id="g" x1="0" x2="1">
+    <stop offset="0%" stop-color="#0d1117"/>
+    <stop offset="50%" stop-color="#111827"/>
+    <stop offset="100%" stop-color="#0d1117"/>
+  </linearGradient>
+  <style>
+    .title { font: 700 46px Arial, sans-serif; fill: #f0f6fc; }
+    .sub { font: 20px Arial, sans-serif; fill: #8b949e; }
+    .small { font: 15px Arial, sans-serif; fill: #58A6FF; }
+    .dot { animation: blink 2.4s ease-in-out infinite; }
+    @keyframes blink { 0%,100% { opacity:.25; } 50% { opacity:1; } }
+  </style>
+</defs>
+<rect width="1200" height="270" rx="28" fill="url(#g)"/>
+<circle class="dot" cx="1045" cy="65" r="7" fill="#58A6FF"/>
+<circle class="dot" cx="1090" cy="105" r="5" fill="#A371F7"/>
+<circle class="dot" cx="1010" cy="115" r="5" fill="#3FB950"/>
+<path d="M70 205 C280 125 430 235 620 155 S980 115 1140 200"
+      fill="none" stroke="#1f6feb" stroke-width="2" opacity=".5"/>
+<text x="70" y="98" class="title">mohamed mohamed</text>
+<text x="70" y="140" class="sub">Software Developer</text>
+<text x="70" y="184" class="small">16 active owned repositories</text>
+</svg>

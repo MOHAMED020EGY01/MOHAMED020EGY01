@@ -1,201 +1,129 @@
-<!-- ========================================================= -->
-<!--                  MOHAMED020EGY01 PROFILE                   -->
-<!-- ========================================================= -->
+# mohamed mohamed
 
 <p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=20&duration=2800&pause=900&color=38BDF8&center=true&vCenter=true&width=900&lines=I+build+software+that+connects+people%2C+data+and+devices.;Laravel+%2B+React+%2B+Next.js;Kotlin+%2B+Jetpack+Compose;Computer+Vision+%2B+Python;ESP32+%2B+IoT;Always+learning.+Always+building." alt="Typing animation" />
+  <img src="./assets/header.svg" width="100%" alt="Profile header">
 </p>
 
 <p align="center">
-  <a href="https://github.com/MOHAMED020EGY01?tab=repositories">
-    <img src="https://img.shields.io/badge/Repositories-View-111827?style=for-the-badge&logo=github&logoColor=white" />
-  </a>
-  <img src="https://komarev.com/ghpvc/?username=MOHAMED020EGY01&style=for-the-badge&label=PROFILE+VIEWS&color=38BDF8" />
+  <img src="./assets/github-contribution-grid-snake.svg" width="100%" alt="Contribution snake">
 </p>
 
----
+## About
 
-## 👨‍💻 About
-
-I'm **Mohamed Mohamed**, a software developer working across web applications, Android development, AI/computer vision, and connected hardware.
-
-I enjoy taking a problem from **idea → architecture → implementation → working system**.
-
-- **Backend:** Laravel, PHP, REST APIs, MySQL
-- **Frontend:** React, Next.js, TypeScript
-- **Android:** Kotlin, Jetpack Compose
-- **AI:** Python, PyTorch, Computer Vision, Object Detection
-- **IoT:** ESP32, ESP32-CAM, sensors and hardware control
-- **3D:** Unity, C#, Blender
+Software Developer building across web, mobile, AI and IoT.
 
 ---
 
-## ⚡ What I Build
+## Profile Snapshot
 
-<table>
-  <tr>
-    <td width="50%" valign="top">
-
-### 🌐 Full-Stack
-Laravel APIs, authentication, databases, real-time systems, React interfaces and business applications.
-
-    </td>
-    <td width="50%" valign="top">
-
-### 📱 Android
-Kotlin and Jetpack Compose applications with local data, background work, widgets and polished UI.
-
-    </td>
-  </tr>
-  <tr>
-    <td width="50%" valign="top">
-
-### 🧠 AI & Computer Vision
-Object detection, image processing, inference pipelines and AI systems connected to real-world inputs.
-
-    </td>
-    <td width="50%" valign="top">
-
-### 🔌 IoT
-ESP32 projects, sensors, device control and software that connects physical hardware with web and AI systems.
-
-    </td>
-  </tr>
-</table>
+| Metric | Value |
+|---|---:|
+| Active owned repositories | 16 |
+| Contributions in the last year | 223 |
+| Source-code lines analyzed | 48,630 |
+| Languages detected | 17 |
 
 ---
 
-## 🧰 Tech Stack
+## My Code Distribution
 
 <p align="center">
-  <img src="https://skillicons.dev/icons?i=php,laravel,react,nextjs,ts,js,html,css,tailwind&perline=9" />
+  <img src="./assets/language-distribution.svg" width="900" alt="Language distribution chart">
 </p>
 
-<p align="center">
-  <img src="https://skillicons.dev/icons?i=kotlin,python,pytorch,opencv&perline=9" />
-</p>
-
-<p align="center">
-  <img src="https://skillicons.dev/icons?i=mysql,sqlite,redis,docker,git,github,linux&perline=9" />
-</p>
-
-<p align="center">
-  <img src="https://skillicons.dev/icons?i=unity,cs,blender,arduino&perline=9" />
-</p>
-
----
-
-## 🚀 Selected Work
-
-### 📱 HabitFlow
-**Kotlin • Jetpack Compose • Room • WorkManager • Glance**
-
-A local-first Android habit tracking application with rich UI, custom scheduling, interactive home-screen widgets, background reliability, calendar history, and Arabic/English support.
-
-**Repository:** [MOHAMED020EGY01/HabitFlow](https://github.com/MOHAMED020EGY01/HabitFlow)
+| Language | Code lines | Share |
+|---|---:|---:|
+| Kotlin | 14,764 | 30.4% |
+| TypeScript | 9,900 | 20.4% |
+| PHP | 7,907 | 16.3% |
+| JavaScript | 7,459 | 15.3% |
+| HTML | 4,392 | 9.0% |
+| Blade | 2,360 | 4.9% |
+| CSS | 892 | 1.8% |
+| C/C++ Header | 221 | 0.5% |
+| Arduino Sketch | 202 | 0.4% |
+| Gradle | 174 | 0.4% |
+| Bourne Shell | 117 | 0.2% |
+| SCSS | 98 | 0.2% |
 
 ---
 
-### 🏢 Project Management System
-**Laravel • PHP • MySQL • Redis • Fortify • Sanctum • Pusher/Socket**
+## Recent Projects
 
-A team-oriented platform for projects, tasks, users, collaboration, real-time chat, notifications, company organization and role-based access.
-
-**Repository:** [MOHAMED020EGY01/theProjectMangement](https://github.com/MOHAMED020EGY01/theProjectMangement)
-
----
-
-### 🔧 Smart Service
-**Laravel • PHP • REST API**
-
-A Laravel-based service platform focused on API-driven application architecture.
-
-**Repository:** [MOHAMED020EGY01/smart_service](https://github.com/MOHAMED020EGY01/smart_service)
+### [smart_service](https://github.com/MOHAMED020EGY01/smart_service)
+**PHP • Public • ★ 0**  
+No repository description provided.  
+Last updated: 2026-09-14
 
 ---
 
-### ♻️ Smart Basket
-**AI • Computer Vision • ESP32-CAM • FastAPI • YOLO • IoT**
-
-A smart waste-sorting system combining computer vision and embedded hardware for real-world object classification and sorting.
-
-**Status:** Private project
+### [HabitFlow](https://github.com/MOHAMED020EGY01/HabitFlow)
+**Kotlin • Public • ★ 1**  
+No repository description provided.  
+Last updated: 2026-07-23
 
 ---
 
-## 🐍 Contribution Snake
+### [Exam](https://github.com/MOHAMED020EGY01/Exam)
+**TypeScript • Public • ★ 0**  
+No repository description provided.  
+Last updated: 2026-06-27
+
+---
+
+### [theFirstProjectReactNative](https://github.com/MOHAMED020EGY01/theFirstProjectReactNative)
+**TypeScript • Public • ★ 0**  
+No repository description provided.  
+Last updated: 2026-05-20
+
+---
+
+### [Home](https://github.com/MOHAMED020EGY01/Home)
+**Code • Public • ★ 0**  
+No repository description provided.  
+Last updated: 2026-04-30
+
+---
+
+### [Blander_level_1](https://github.com/MOHAMED020EGY01/Blander_level_1)
+**Code • Public • ★ 0**  
+No repository description provided.  
+Last updated: 2026-04-23
+
+---
+
+### [ESP32ControllerEngine](https://github.com/MOHAMED020EGY01/ESP32ControllerEngine)
+**C • Public • ★ 0**  
+No repository description provided.  
+Last updated: 2026-03-04
+
+---
+
+### [ESP32-LED-Controller-in-WEB](https://github.com/MOHAMED020EGY01/ESP32-LED-Controller-in-WEB)
+**C++ • Public • ★ 0**  
+No repository description provided.  
+Last updated: 2026-02-22
+
+---
+
+## Engineering Focus
 
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="./assets/github-contribution-grid-snake-dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset="./assets/github-contribution-grid-snake.svg">
-    <img alt="GitHub contribution snake animation" src="./assets/github-contribution-grid-snake.svg" width="100%">
-  </picture>
-</p>
-
-<p align="center">
-  <b>223 contributions in the last year</b>
+  <b>Full-Stack • Kotlin • AI • Computer Vision • IoT • 3D</b>
 </p>
 
 ---
 
-## 📊 GitHub Activity
+## GitHub
 
 <p align="center">
-  <img src="./assets/language-distribution.svg" alt="Programming language distribution" width="900">
+  <a href="https://github.com/MOHAMED020EGY01">github.com/MOHAMED020EGY01</a>
 </p>
 
 <p align="center">
-  <sub>Language percentages are generated automatically from GitHub's repository language analysis.</sub>
-</p>
-
----
-
----
-
-## 🧭 Current Direction
-
-<p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&size=17&duration=2400&pause=700&color=A5B4FC&center=true&vCenter=true&width=850&lines=Backend+Architecture;Modern+Laravel+APIs;React+%2F+Next.js;Kotlin+%2F+Jetpack+Compose;AI+%2F+Computer+Vision;IoT+%2F+ESP32" alt="Current direction" />
-</p>
-
----
-
-## 🧩 Engineering Mindset
-
-```text
-Problem
-   ↓
-Understand
-   ↓
-Design
-   ↓
-Build
-   ↓
-Test
-   ↓
-Measure
-   ↓
-Improve
-```
-
-> Build the simplest system that solves the real problem.
-> Then improve it where the evidence says it matters.
-
----
-
-## 🌐 Find Me
-
-<p align="center">
-  <a href="https://github.com/MOHAMED020EGY01">
-    <img src="https://img.shields.io/badge/GitHub-MOHAMED020EGY01-181717?style=for-the-badge&logo=github&logoColor=white" />
-  </a>
+  <sub>This profile is regenerated automatically from GitHub data and source-code analysis.</sub>
 </p>
 
 <p align="center">
-  <sub>Web • Kotlin • AI • IoT • 3D</sub>
-</p>
-
-<p align="center">
-  <img src="https://capsule-render.vercel.app/api?type=waving&height=130&section=footer&animation=fadeIn" width="100%" />
+  <img src="./assets/footer.svg" width="100%" alt="Profile footer">
 </p>

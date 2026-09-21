@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="130" viewBox="0 0 1200 130">
+<defs>
+  <linearGradient id="f" x1="0" x2="1">
+    <stop offset="0%" stop-color="#0d1117"/>
+    <stop offset="50%" stop-color="#111827"/>
+    <stop offset="100%" stop-color="#0d1117"/>
+  </linearGradient>
+  <style>
+    .line { animation: move 4s linear infinite; }
+    @keyframes move {
+      from { transform: translateX(-50px); }
+      to { transform: translateX(50px); }
+    }
+  </style>
+</defs>
+<rect width="1200" height="130" rx="28" fill="url(#f)"/>
+<path class="line" d="M0 92 Q300 20 600 92 T1200 92"
+      fill="none" stroke="#58A6FF" stroke-width="2" opacity=".5"/>
+<circle cx="600" cy="82" r="5" fill="#58A6FF"/>
+</svg>
